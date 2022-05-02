@@ -1,0 +1,19 @@
+.program m16c
+.side_set 1
+
+; Pin asssignments:
+; - CLK is side-set pin 0
+; - TX is OUT pin 0
+; - RX id IN pin 0
+; - BUSY in IN pin 1
+
+; data is set when clock goes low, and is read when it goes high
+
+    wait 0 pin 1        side 1      ; wait for BUSY low
+    set y, 7            side 1      ; send 8 bits
+bitloop_tx:
+    out x, 1            side 1      ; load bits in x
+    mov pins, x         side 0      ; shift out a bit
+    in pins, 1          side 0      ;
+    jmp y-- bitloop_tx  side 1      ; loop until done
+    wait 0 pin 1        side 1      ; wait until BUSY low again
