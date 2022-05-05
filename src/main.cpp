@@ -63,7 +63,7 @@ int main() {
     stdio_init_all();
     // short delay to allow host to enumerate USB and reconnect
     sleep_ms(2000);
-    static constexpr beroset::ConsoleMenu<std::string_view, MenuEntry, 19> menu{
+    static constexpr beroset::ConsoleMenu<std::string_view, MenuEntry, 20> menu{
         "pico-puller Main Menu:\n",
         "That is not a valid choice.\n",
         "> ",
@@ -143,6 +143,15 @@ int main() {
             }}},
             { "clear", {"", "clear status register", []{
                 state.target.clearStatus();
+            }}},
+            { "checkread", {"", "read CRC of written data", []{
+                auto [crclo, crchi] = state.target.checkRead();
+                std::cout << "CRClo = 0x" << std::hex
+                    << static_cast<uint>(crclo)
+                    << ", CRChi = 0x"
+                    << static_cast<uint>(crchi)
+                    << std::dec
+                    << '\n';
             }}},
             { "lockread", {"addr", "read lock bit", []{
                 unsigned addr;

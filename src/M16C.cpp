@@ -103,6 +103,13 @@ std::pair<uint8_t, uint8_t> M16C::status() {
     return {srd, srd1};
 }
 
+std::pair<uint8_t, uint8_t> M16C::checkRead() {
+    write_byte(commands::check_read);
+    uint crcLo{read_byte()};
+    uint crcHi{read_byte()};
+    return {crcLo, crcHi};
+}
+
 FlashPage M16C::pageRead(uint addr) {
     FlashPage page;
     write_byte(commands::page_read);
