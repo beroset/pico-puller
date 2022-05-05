@@ -63,7 +63,7 @@ int main() {
     stdio_init_all();
     // short delay to allow host to enumerate USB and reconnect
     sleep_ms(2000);
-    static constexpr beroset::ConsoleMenu<std::string_view, MenuEntry, 14> menu{
+    static constexpr beroset::ConsoleMenu<std::string_view, MenuEntry, 15> menu{
         "pico-puller Main Menu:\n",
         "That is not a valid choice.\n",
         "> ",
@@ -115,6 +115,13 @@ int main() {
                 if (state.target.wasError()) {
                     std::cout << "Error reading page\n";
                 } else {
+                    dump(std::cout, page, addr);
+                }
+            }}},
+            { "bdump", {"", "dump entire boot flash contents", []{
+                for (unsigned addr{0xf'e000}; addr < 0x10'0000; addr += 256) {
+                    state.target.busyWait();
+                    auto page = state.target.boot_page_read(addr);
                     dump(std::cout, page, addr);
                 }
             }}},
