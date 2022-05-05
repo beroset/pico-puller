@@ -1,4 +1,5 @@
 #include "M16C.h"
+#include <numeric>
 
 static inline void m16c_program_init(PIO pio, uint sm, uint offset, uint clk) {
     const uint txd{clk + 1};
@@ -142,6 +143,18 @@ void M16C::pageProgram(uint addr, FlashPage page) {
     write_byte(size);
     for (int i{0}; i < size; ++i) {
         write_byte(page[i]);
+    }
+    // error = gpio_get(busy);
+}
+
+void M16C::download(uint addr, std::vector<uint8_t> code) {
+    write_byte(commands::download);
+    write_byte((code.size() ) & 0xff);
+    write_byte((code.size() >> 8) & 0xff);
+    uint8_t checksum{static_cast<uint8_t>(std::accumulate(code.begin(), code.end(), 0))};
+    write_byte(checksum);
+    for (auto byte : code) {
+        write_byte(byte);
     }
     // error = gpio_get(busy);
 }

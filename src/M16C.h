@@ -31,6 +31,7 @@ public:
     void lockBitDisable();
     void eraseAll();
     void eraseBlock(uint addr);
+    void download(uint addr, std::vector<uint8_t> code);
     std::pair<uint8_t, uint8_t> checkRead();
     // helper functions
     void busyWait();

@@ -63,7 +63,7 @@ int main() {
     stdio_init_all();
     // short delay to allow host to enumerate USB and reconnect
     sleep_ms(2000);
-    static constexpr beroset::ConsoleMenu<std::string_view, MenuEntry, 20> menu{
+    static constexpr beroset::ConsoleMenu<std::string_view, MenuEntry, 21> menu{
         "pico-puller Main Menu:\n",
         "That is not a valid choice.\n",
         "> ",
@@ -199,6 +199,20 @@ int main() {
                 std::cout << "Programming page at 0x" << std::hex << addr << std::dec;
                 std::cout << '\n';
                 state.target.pageProgram(addr, page);
+            }}},
+            { "download", {"addr byte0 ... byteXX", "download into RAM at addr and execute", []{
+                std::vector<uint8_t> code;
+                unsigned addr;
+                std::cin >> std::hex >> addr;
+                unsigned codebyte;
+                while (std::cin >> codebyte) {
+                    code.push_back(static_cast<uint8_t>(codebyte));
+                }
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Programming RAM at 0x" << std::hex << addr << std::dec;
+                std::cout << '\n';
+                state.target.download(addr, code);
             }}},
             { "all_erase", {"", "erase all unlocked blocks", []{
                 state.target.eraseAll();
