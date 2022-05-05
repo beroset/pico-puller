@@ -112,7 +112,6 @@ std::array<uint8_t, 256> M16C::page_read(uint addr) {
         page[i] = read_byte();
     }
     // error = gpio_get(busy);
-    repeatId();
     return page;
 }
 
