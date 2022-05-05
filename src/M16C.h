@@ -9,6 +9,7 @@
 #include <vector>
 
 namespace beroset {
+    using FlashPage = std::array<uint8_t, 256>;
 class M16C {
 public:
     M16C(PIO pio = pio0, uint clkpin = 2, uint resetpin = 6);
@@ -19,8 +20,9 @@ public:
     // higher level functions
     std::string version();
     std::pair<uint8_t, uint8_t> status();
-    std::array<uint8_t, 256> page_read(uint addr);
-    std::array<uint8_t, 256> boot_page_read(uint addr);
+    FlashPage page_read(uint addr);
+    void page_program(uint addr, FlashPage page);
+    FlashPage boot_page_read(uint addr);
     void id(std::vector<uint8_t> code, uint addr = 0x0fffdf);
     void clearStatus();
     void lockBitEnable();

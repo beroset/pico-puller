@@ -103,8 +103,8 @@ std::pair<uint8_t, uint8_t> M16C::status() {
     return {srd, srd1};
 }
 
-std::array<uint8_t, 256> M16C::page_read(uint addr) {
-    std::array<uint8_t, 256> page;
+FlashPage M16C::page_read(uint addr) {
+    FlashPage page;
     write_byte(commands::page_read);
     write_byte((addr >> 8) & 0xff);
     write_byte((addr >> 16) & 0xff);
@@ -115,8 +115,8 @@ std::array<uint8_t, 256> M16C::page_read(uint addr) {
     return page;
 }
 
-std::array<uint8_t, 256> M16C::boot_page_read(uint addr) {
-    std::array<uint8_t, 256> page;
+FlashPage M16C::boot_page_read(uint addr) {
+    FlashPage page;
     write_byte(commands::boot_read);
     write_byte((addr >> 8) & 0xff);
     write_byte((addr >> 16) & 0xff);
@@ -125,6 +125,18 @@ std::array<uint8_t, 256> M16C::boot_page_read(uint addr) {
     }
     //error = gpio_get(busy);
     return page;
+}
+
+void M16C::page_program(uint addr, FlashPage page) {
+    uint8_t size = static_cast<uint8_t>(mycode.size());
+    write_byte(commands::page_program);
+    write_byte((addr >> 8) & 0xff);
+    write_byte((addr >> 16) & 0xff);
+    write_byte(size);
+    for (int i{0}; i < size; ++i) {
+        write_byte(page[i]);
+    }
+    // error = gpio_get(busy);
 }
 
 void M16C::id(std::vector<uint8_t> code, uint addr) {

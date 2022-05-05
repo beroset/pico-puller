@@ -44,7 +44,7 @@ std::ostream& operator<<(std::ostream& out, const MenuEntry& me) {
     return out << me.args << "\n\t" << me.desc;
 }
 
-std::ostream& dump(std::ostream& out, std::array<uint8_t, 256> page, uint addr) {
+std::ostream& dump(std::ostream& out, beroset::FlashPage page, uint addr) {
     addr &= 0xffffff00;
     auto it{std::begin(page)};
     for (int row{0}; row < 16; ++row) {
@@ -63,7 +63,7 @@ int main() {
     stdio_init_all();
     // short delay to allow host to enumerate USB and reconnect
     sleep_ms(2000);
-    static constexpr beroset::ConsoleMenu<std::string_view, MenuEntry, 16> menu{
+    static constexpr beroset::ConsoleMenu<std::string_view, MenuEntry, 17> menu{
         "pico-puller Main Menu:\n",
         "That is not a valid choice.\n",
         "> ",
@@ -157,6 +157,21 @@ int main() {
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::cout << "Erasing block at 0x" << std::hex << addr << std::dec << '\n';
                 state.target.eraseBlock(addr);
+            }}},
+            { "pblock", {"addr byte0 ... byte255", "program the given page at addr", []{
+                beroset::FlashPage page;
+                unsigned addr;
+                std::cin >> std::hex >> addr >> std::dec;
+                for (unsigned i = 0; i < page.size(); ++i) {
+                    unsigned code;
+                    std::cin >> std::hex >> code >> std::dec;
+                    page[i] = code & 0xff;
+                }
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Programming page at 0x" << std::hex << addr << std::dec;
+                std::cout << '\n';
+                state.target.page_program(addr, page);
             }}},
             { "all_erase", {"", "erase all unlocked blocks", []{
                 state.target.eraseAll();
