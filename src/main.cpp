@@ -63,7 +63,7 @@ int main() {
     stdio_init_all();
     // short delay to allow host to enumerate USB and reconnect
     sleep_ms(2000);
-    static constexpr beroset::ConsoleMenu<std::string_view, MenuEntry, 15> menu{
+    static constexpr beroset::ConsoleMenu<std::string_view, MenuEntry, 16> menu{
         "pico-puller Main Menu:\n",
         "That is not a valid choice.\n",
         "> ",
@@ -149,6 +149,14 @@ int main() {
             }}},
             { "disable", {"", "disable lock bit", []{
                 state.target.lockBitDisable();
+            }}},
+            { "eblock", {"addr", "erase block", []{
+                unsigned addr;
+                std::cin >> std::hex >> addr >> std::dec;
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Erasing block at 0x" << std::hex << addr << std::dec << '\n';
+                state.target.eraseBlock(addr);
             }}},
             { "all_erase", {"", "erase all unlocked blocks", []{
                 state.target.eraseAll();

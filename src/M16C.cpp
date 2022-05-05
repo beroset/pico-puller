@@ -163,6 +163,13 @@ void M16C::eraseAll() {
     write_byte(0xD0);
 }
 
+void M16C::eraseBlock(uint addr) {
+    write_byte(commands::block_erase);
+    write_byte((codeaddr >> 8) & 0xff);
+    write_byte((codeaddr >> 16) & 0xff);
+    write_byte(0xD0);
+}
+
 void M16C::busyWait() {
     while (gpio_get(busy));
 }

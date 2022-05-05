@@ -26,6 +26,7 @@ public:
     void lockBitEnable();
     void lockBitDisable();
     void eraseAll();
+    void eraseBlock(uint addr);
     // helper functions
     void busyWait();
     void repeatId();
