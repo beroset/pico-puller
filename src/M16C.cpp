@@ -162,6 +162,13 @@ void M16C::clearStatus() {
     write_byte(commands::clear_status);
 }
 
+uint8_t M16C::readLock(uint addr) {
+    write_byte(commands::read_lock_status);
+    write_byte((addr >> 8) & 0xff);
+    write_byte((addr >> 16) & 0xff);
+    return read_byte();
+}
+
 void M16C::lockBitEnable() {
     write_byte(commands::lock_bit_enable);
 }

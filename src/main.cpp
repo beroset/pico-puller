@@ -63,7 +63,7 @@ int main() {
     stdio_init_all();
     // short delay to allow host to enumerate USB and reconnect
     sleep_ms(2000);
-    static constexpr beroset::ConsoleMenu<std::string_view, MenuEntry, 17> menu{
+    static constexpr beroset::ConsoleMenu<std::string_view, MenuEntry, 18> menu{
         "pico-puller Main Menu:\n",
         "That is not a valid choice.\n",
         "> ",
@@ -143,6 +143,15 @@ int main() {
             }}},
             { "clear", {"", "clear status register", []{
                 state.target.clearStatus();
+            }}},
+            { "lockread", {"addr", "read lock bit", []{
+                unsigned addr;
+                std::cin >> std::hex >> addr >> std::dec;
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Lock status for Block at 0x" << std::hex << addr 
+                    << " = 0x" << static_cast<unsigned>(state.target.readLock(addr))
+                    << std::dec << '\n';
             }}},
             { "enable", {"", "enable lock bit", []{
                 state.target.lockBitEnable();
