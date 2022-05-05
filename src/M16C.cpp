@@ -103,7 +103,7 @@ std::pair<uint8_t, uint8_t> M16C::status() {
     return {srd, srd1};
 }
 
-FlashPage M16C::page_read(uint addr) {
+FlashPage M16C::pageRead(uint addr) {
     FlashPage page;
     write_byte(commands::page_read);
     write_byte((addr >> 8) & 0xff);
@@ -115,7 +115,7 @@ FlashPage M16C::page_read(uint addr) {
     return page;
 }
 
-FlashPage M16C::boot_page_read(uint addr) {
+FlashPage M16C::bootPageRead(uint addr) {
     FlashPage page;
     write_byte(commands::boot_read);
     write_byte((addr >> 8) & 0xff);
@@ -127,7 +127,7 @@ FlashPage M16C::boot_page_read(uint addr) {
     return page;
 }
 
-void M16C::page_program(uint addr, FlashPage page) {
+void M16C::pageProgram(uint addr, FlashPage page) {
     uint8_t size = static_cast<uint8_t>(mycode.size());
     write_byte(commands::page_program);
     write_byte((addr >> 8) & 0xff);

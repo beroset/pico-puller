@@ -20,9 +20,9 @@ public:
     // higher level functions
     std::string version();
     std::pair<uint8_t, uint8_t> status();
-    FlashPage page_read(uint addr);
-    void page_program(uint addr, FlashPage page);
-    FlashPage boot_page_read(uint addr);
+    FlashPage pageRead(uint addr);
+    void pageProgram(uint addr, FlashPage page);
+    FlashPage bootPageRead(uint addr);
     void id(std::vector<uint8_t> code, uint addr = 0x0fffdf);
     void clearStatus();
     void lockBitEnable();

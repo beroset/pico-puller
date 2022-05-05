@@ -98,7 +98,7 @@ int main() {
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::cout << "Reading from 0x" << std::hex << addr << std::dec << '\n';
-                auto page = state.target.boot_page_read(addr);
+                auto page = state.target.bootPageRead(addr);
                 if (state.target.wasError()) {
                     std::cout << "Error reading page\n";
                 } else {
@@ -111,7 +111,7 @@ int main() {
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::cout << "Reading from 0x" << std::hex << addr << std::dec << '\n';
-                auto page = state.target.page_read(addr);
+                auto page = state.target.pageRead(addr);
                 if (state.target.wasError()) {
                     std::cout << "Error reading page\n";
                 } else {
@@ -121,14 +121,14 @@ int main() {
             { "bdump", {"", "dump entire boot flash contents", []{
                 for (unsigned addr{0xf'e000}; addr < 0x10'0000; addr += 256) {
                     state.target.busyWait();
-                    auto page = state.target.boot_page_read(addr);
+                    auto page = state.target.bootPageRead(addr);
                     dump(std::cout, page, addr);
                 }
             }}},
             { "dump", {"", "dump entire flash contents", []{
                 for (unsigned addr{0xC'0000}; addr < 0x10'0000; addr += 256) {
                     state.target.busyWait();
-                    auto page = state.target.page_read(addr);
+                    auto page = state.target.pageRead(addr);
                     dump(std::cout, page, addr);
                 }
             }}},
@@ -171,7 +171,7 @@ int main() {
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::cout << "Programming page at 0x" << std::hex << addr << std::dec;
                 std::cout << '\n';
-                state.target.page_program(addr, page);
+                state.target.pageProgram(addr, page);
             }}},
             { "all_erase", {"", "erase all unlocked blocks", []{
                 state.target.eraseAll();
