@@ -169,6 +169,13 @@ uint8_t M16C::readLock(uint addr) {
     return read_byte();
 }
 
+void M16C::writeLock(uint addr) {
+    write_byte(commands::lock_bit_program);
+    write_byte((addr >> 8) & 0xff);
+    write_byte((addr >> 16) & 0xff);
+    write_byte(0xD0);
+}
+
 void M16C::lockBitEnable() {
     write_byte(commands::lock_bit_enable);
 }

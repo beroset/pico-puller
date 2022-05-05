@@ -26,6 +26,7 @@ public:
     void id(std::vector<uint8_t> code, uint addr = 0x0fffdf);
     void clearStatus();
     uint8_t readLock(uint addr);
+    void writeLock(uint addr);
     void lockBitEnable();
     void lockBitDisable();
     void eraseAll();
