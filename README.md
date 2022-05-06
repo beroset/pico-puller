@@ -16,7 +16,7 @@ This project is intended to allow a programmer to connect the Raspberry Pi Pico 
 
 ## How to use it
 
-Full details on how to build the project and use it are in the [manual](doc/pico-puller.pdf).
+Full details on how to build the project and use it are in the [manual](https://github.com/beroset/pico-puller/releases/download/v1.0/refman.pdf).
 
 ## Details 
 
