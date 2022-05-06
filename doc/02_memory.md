@@ -1,16 +1,8 @@
 # M16C {#cpu} #
-The M16C processors are a 16-bit microcomputer family commonly used in embedded systems.  This page describes an [overview of the processor family](#family) and 
+The M16C processors are a 16-bit microcomputer family commonly used in embedded systems.  This page describes the necessary [connections](#connections) between the Pico and the M16C, an [overview of the processor family](#family) and 
  a description of the [memory layout](#memory) of the M16C processors, useful in using the `pico-puller` tool.
 
-## Processor family {#family} #
-
-The M30624FGAFP/GP and M30624FGMFP/GP versions both have 256K of Flash memory, while the M30620FCAFP/GP and M30620FCMFP/GP have 128K.  The FP suffix indicates a 100P6S-A rectangular package with 30 pins on the long side and 20 on the short side, while a GP suffix indicates a square 100-pin QFP package (designated 100P6Q-A) with 25 pins one each side.
-
-There are three standard ways to program or read the M16C; parallel, synchronous serial, asynchronous serial.  This project uses the synchronous serial mode, which Renesas calls Standard Serial Mode 1, by connecting some of the pins on the Pico board to the corresponding ones on the M16C processor or board.  
-
-The synchronous serial protocol uses RXD1, TXD1, CLK1 to transfer data and RTS1 as a BUSY signal. Details of the protocol are in the Users Manual for the M16C/62A but a summary of the connections is here, but all of the documented commands are implemented and described [here](@ref commands). 
-
-## Connections
+## Connections {#connections} ##
 Here are the connections from the Pico to the M16C system.  M16C pin numbers refer to square package/rectangular package.
 
 | Pico name | Pico pin | M16C pin | M16C name |
@@ -25,6 +17,14 @@ Here are the connections from the Pico to the M16C system.  M16C pin numbers ref
 |  GP6      |   9      |  10/12   |  \#RESET   |
 | 3V3(OUT)  |  36      |   7/9    |  CNVss    |
 |  GP4      |   6      |  29/31   |  TXD      |  
+
+## Processor family {#family} ##
+
+The M30624FGAFP/GP and M30624FGMFP/GP versions both have 256K of Flash memory, while the M30620FCAFP/GP and M30620FCMFP/GP have 128K.  The FP suffix indicates a 100P6S-A rectangular package with 30 pins on the long side and 20 on the short side, while a GP suffix indicates a square 100-pin QFP package (designated 100P6Q-A) with 25 pins one each side.
+
+There are three standard ways to program or read the M16C; parallel, synchronous serial, asynchronous serial.  This project uses the synchronous serial mode, which Renesas calls Standard Serial Mode 1, by connecting some of the pins on the Pico board to the corresponding ones on the M16C processor or board.  
+
+The synchronous serial protocol uses RXD1, TXD1, CLK1 to transfer data and RTS1 as a BUSY signal. Details of the protocol are in the Users Manual for the M16C/62A but a summary of the connections is here, but all of the documented commands are implemented and described [here](@ref commands). 
 
 ## Memory layout {#memory} ##
 The peripherals, RAM and Flash ROM are all mapped to memory space in the M16C which has an address space of 1M (0x00000 to 0xfffff).  The details of memory mapping and registers are described in the manual for the M16C.  Some of the essential details required for using the `pico-puller` softwarea are documented here.  
