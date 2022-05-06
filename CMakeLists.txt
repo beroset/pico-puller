@@ -3,7 +3,11 @@ cmake_minimum_required(VERSION 3.12)
 # Pull in SDK (must be before project)
 include(pico_sdk_import.cmake)
 
-project(pico-puller C CXX ASM)
+project(pico-puller 
+    VERSION 1.0.0
+    LANGUAGES C CXX ASM 
+    DESCRIPTION "A Raspberry Pi Pico-based memory dumper for the M16C processor"
+)
 option(WITH_DOC "Create project documentation" OFF)
 
 set(CMAKE_C_STANDARD 11)
