@@ -1,0 +1,10 @@
+#!/usr/bin/expect -f
+set pico /dev/ttyACM0
+exec sh -c "sleep 3 < $pico" &
+stty -F $pico 115200 raw -clocal -echo -istrip -hup
+send_user "Connecting to pico, exit with ~.\n"
+spawn -open [open $pico w+]
+interact {
+    ~. exit
+    ~~ {send "\034"}
+}

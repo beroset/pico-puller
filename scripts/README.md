@@ -1,0 +1,1 @@
+This directory contains some `expect` scripts that make it easy to work with `pico-puller`.  The basic one is called `pico-puller` and is intended to be used with `expect` on a Linux machine.  It opens the `/dev/ttyACM0` device (which we assume is where the Pico is attached) and allows you to interact with the program via its internal menu.  Try `help` to display the menu.
