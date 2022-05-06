@@ -10,6 +10,11 @@ if(DOXYGEN_FOUND)
         "doxygen.conf"
         @ONLY
     )
+    configure_file(
+        "header.tex"
+        "header.tex"
+        COPYONLY
+    )
     add_custom_target(
         doc
         "${DOXYGEN_EXECUTABLE}"
