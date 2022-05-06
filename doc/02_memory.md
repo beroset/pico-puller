@@ -43,4 +43,6 @@ The flash memory of the M16C processor is divided in to *blocks*.  The block are
 |  6    |  64K | C0000 | CFFFF |
 
 
-For 128K parts, everything is the same except the first populated memory is at 0xE0000, so the first two 64K blocks (blocks 5 and 6) do not exist.
+For 128K parts, everything is the same except the first populated memory is at 0xE0000, so the first two 64K blocks (blocks 5 and 6) do not exist.  It's helpful to remember that each *block* of memory is composed of multiple *pages* and that each page is 256 bytes long.  
+
+In this processor, as in many, one can program an individual *page*, but only erase an entire *block*.
