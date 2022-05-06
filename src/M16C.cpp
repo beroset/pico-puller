@@ -91,7 +91,7 @@ std::string M16C::version() {
     write_byte(commands::version);
     std::string version;
     version.reserve(8);
-    for (int i{8}; i; --i) {
+    for (unsigned i{8}; i; --i) {
         version.push_back(read_byte());
     }
     return version;
@@ -116,7 +116,7 @@ FlashPage M16C::pageRead(uint addr) {
     write_byte(commands::page_read);
     write_byte((addr >> 8) & 0xff);
     write_byte((addr >> 16) & 0xff);
-    for (int i{0}; i < 256; ++i) {
+    for (unsigned i{0}; i < 256; ++i) {
         page[i] = read_byte();
     }
     // error = gpio_get(busy);
@@ -128,23 +128,19 @@ FlashPage M16C::bootPageRead(uint addr) {
     write_byte(commands::boot_read);
     write_byte((addr >> 8) & 0xff);
     write_byte((addr >> 16) & 0xff);
-    for (int i{0}; i < 256; ++i) {
+    for (unsigned i{0}; i < 256; ++i) {
         page[i] = read_byte();
     }
-    //error = gpio_get(busy);
     return page;
 }
 
 void M16C::pageProgram(uint addr, FlashPage page) {
-    uint8_t size = static_cast<uint8_t>(mycode.size());
     write_byte(commands::page_program);
     write_byte((addr >> 8) & 0xff);
     write_byte((addr >> 16) & 0xff);
-    write_byte(size);
-    for (int i{0}; i < size; ++i) {
+    for (unsigned i{0}; i < page.size(); ++i) {
         write_byte(page[i]);
     }
-    // error = gpio_get(busy);
 }
 
 void M16C::download(uint addr, std::vector<uint8_t> code) {
@@ -156,7 +152,6 @@ void M16C::download(uint addr, std::vector<uint8_t> code) {
     for (auto byte : code) {
         write_byte(byte);
     }
-    // error = gpio_get(busy);
 }
 
 void M16C::id(std::vector<uint8_t> code, uint addr) {
@@ -172,10 +167,9 @@ void M16C::repeatId() {
     write_byte((codeaddr >> 8) & 0xff);
     write_byte((codeaddr >> 16) & 0xff);
     write_byte(size);
-    for (int i{0}; i < size; ++i) {
+    for (unsigned i{0}; i < size; ++i) {
         write_byte(mycode[i]);
     }
-    // error = gpio_get(busy);
 }
 
 void M16C::clearStatus() {
