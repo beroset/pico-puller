@@ -53,7 +53,7 @@ The last part of the Flash memory, starting at address 0xFFFDC is a fixed vector
 | Reset       | ffffc | fffff |
 
 
-### Flash memory
+### Flash memory {#blocks} #
 The flash memory of the M16C processor is divided in to *blocks*.  The block are of different sizes and have different locations.  The summary for the 256K flash part is below:
 
 | Block | Size | Start |  End  |
