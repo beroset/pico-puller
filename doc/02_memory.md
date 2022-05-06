@@ -19,30 +19,59 @@ Here are the connections from the Pico to the M16C system.  M16C pin numbers ref
 |  GP5      |   7      |  32/34   |  BUSY     |
 |  GP2      |   4      |  31/33   |  SCLK     |   
 |  GP3      |   5      |  30/32   |  RXD      |   
-| 3V3(OUT)  |  36      |  44/46   |  #CE      |
-|  GND      |   3      |  39/41   |  #EPM     |
+| 3V3(OUT)  |  36      |  44/46   |  \#CE      |
+|  GND      |   3      |  39/41   |  \#EPM     |
 |  GND      |   3      |  63/64   |  Vss      |
-|  GP6      |   9      |  10/12   |  #RESET   |
+|  GP6      |   9      |  10/12   |  \#RESET   |
 | 3V3(OUT)  |  36      |   7/9    |  CNVss    |
 |  GP4      |   6      |  29/31   |  TXD      |  
 
 ## Memory layout {#memory} ##
-The peripherals, RAM and Flash ROM are all mapped to memory space in the M16C.  The details of memory mapping and registers are described in the manual for the M16C.  Some of the essential details required for using the `pico-puller` softwarea are documented here.  
+The peripherals, RAM and Flash ROM are all mapped to memory space in the M16C which has an address space of 1M (0x00000 to 0xfffff).  The details of memory mapping and registers are described in the manual for the M16C.  Some of the essential details required for using the `pico-puller` softwarea are documented here.  
+
+The overall memory map is shown in the figure below.  This is for the 256K flash part with 20K of RAM.  The first area, starting a memory address 0x00000 contains Special Function Registers (SFRs).  After that is RAM, and then Flash ROM.
+
+| Function | Size | Start |  End  |
+|----------|------|-------|-------|
+|  SFRs    |   1K | 00000 | 003ff |
+|  RAM     |  20K | 00400 | 053ff |
+|  unused  | 747K | 05400 | bffff |
+|  Flash   | 256K | c0000 | fffff |
+
+The last part of the Flash memory, starting at address 0xFFFDC is a fixed vector table as shown below.
+
+| Interrupt   | Start |  End  |
+|-------------|-------|-------|
+| UND instr   | fffdc | fffdf |
+| Overflow    | fffe0 | fffe3 |
+| BRK instr   | fffe4 | fffe7 |
+| addr match  | fffe8 | fffeb |
+| single step | fffec | fffef |
+| watchdog    | ffff0 | ffff3 |
+| \#DBC        | ffff4 | ffff7 |
+| \#NMI        | ffff8 | ffffb |
+| Reset       | ffffc | fffff |
+
 
 ### Flash memory
-The flash memory of the M16C processor is divided in to *blocks*.  The block are of different sizes and have different locations.  The summary for the 256K Flash part is below:
+The flash memory of the M16C processor is divided in to *blocks*.  The block are of different sizes and have different locations.  The summary for the 256K flash part is below:
 
 | Block | Size | Start |  End  |
 |-------|------|-------|-------|
-|  0    |  16K | FC000 | FFFFF |
-|  1    |   8K | FA000 | FBFFF |
-|  2    |   8K | F8000 | F9FFF |
-|  3    |  32K | F0000 | F7FFF |
-|  4    |  64K | E0000 | EFFFF |
-|  5    |  64K | D0000 | DFFFF |
-|  6    |  64K | C0000 | CFFFF |
+|  0    |  16K | fc000 | fffff |
+|  1    |   8K | fa000 | fbfff |
+|  2    |   8K | f8000 | f9fff |
+|  3    |  32K | f0000 | f7fff |
+|  4    |  64K | e0000 | effff |
+|  5    |  64K | d0000 | dffff |
+|  6    |  64K | c0000 | cffff |
 
 
 For 128K parts, everything is the same except the first populated memory is at 0xE0000, so the first two 64K blocks (blocks 5 and 6) do not exist.  It's helpful to remember that each *block* of memory is composed of multiple *pages* and that each page is 256 bytes long.  
 
-In this processor, as in many, one can program an individual *page*, but only erase an entire *block*.
+In this processor, as in many, one can program an individual *page*, but only erase an entire *block*.  It's also useful to know that the special function registers (SFRs) 
+
+## Other reading
+
+- [Introduction](@ref mainpage)
+- [Commands](@ref commands)
