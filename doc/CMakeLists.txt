@@ -1,5 +1,5 @@
 find_package(Doxygen)
-set(MD_SOURCES 01_intro.md) 
+set(MD_SOURCES 01_intro.md 02_memory.md 03_commands.md) 
 set(IMAGE_PATH "images")
 set(DEST_IMAGE_PATH "${CMAKE_BINARY_DIR}/${IMAGE_PATH}")
 set(PROJECT_LOGO "${CMAKE_CURRENT_SOURCE_DIR}/images/npn.png")
