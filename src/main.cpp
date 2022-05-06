@@ -185,7 +185,7 @@ int main() {
                 std::cout << "Erasing block at 0x" << std::hex << addr << std::dec << '\n';
                 state.target.eraseBlock(addr);
             }}},
-            { "pblock", {"addr byte0 ... byte255", "program the given page at addr", []{
+            { "ppage", {"addr byte0 ... byte255", "program the given page at addr", []{
                 beroset::FlashPage page;
                 unsigned addr;
                 std::cin >> std::hex >> addr >> std::dec;
@@ -197,10 +197,11 @@ int main() {
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::cout << "Programming page at 0x" << std::hex << addr << std::dec;
+                dump(std::cout, page, addr);
                 std::cout << '\n';
                 state.target.pageProgram(addr, page);
             }}},
-            { "download", {"addr byte0 ... byteXX", "download into RAM at addr and execute", []{
+            { "ramload", {"addr byte0 ... byteXX", "download into RAM at addr and execute", []{
                 std::vector<uint8_t> code;
                 unsigned addr;
                 std::cin >> std::hex >> addr;
