@@ -162,7 +162,7 @@ pico -> M16C : <50>
 \enduml
 
 ### Read Lock Bit Status
-Each of the six flash memory [blocks](@ref blocks) has an associated non-volatile lock bit.  After the `disable` command, all blocks are unlocked regardless of lock bit status.  After the `enable` command, the bits can be set (unlocked) or cleared (locked) using the `lockwrite` command.
+Each of the seven flash memory [blocks](@ref blocks) has an associated non-volatile lock bit.  After the `disable` command, all blocks are unlocked regardless of lock bit status.  After the `enable` command, the bits can be set (unlocked) or cleared (locked) using the `lockwrite` command.
 
 The `lockread` command reads these lock bits.  Note that the address should be the highest address in the block, and that the data is in bit 6, so an unlocked block will show a value of 0x40.
 
@@ -229,6 +229,7 @@ pico -> M16C : <F5><addr_lo><addr_mid><addr_hi><ID size><id1><id2><id3><id4><id5
 \enduml
 
 ### Download Function
+The `ramload` function allows one to download a program into RAM and execute it.  The program sent is downloaded to the address 0x600 and begins executing as soon as the data is transferred and the checkum verified.
 
 \startuml
 pico -> M16C : <FA><size_lo><size_hi><checksum>[data input]
