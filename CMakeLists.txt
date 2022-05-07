@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.12)
 include(pico_sdk_import.cmake)
 
 project(pico-puller 
-    VERSION 1.0.0
+    VERSION 1.1.0
     LANGUAGES C CXX ASM 
     DESCRIPTION "A Raspberry Pi Pico-based memory dumper for the M16C processor"
 )
@@ -36,3 +36,5 @@ add_subdirectory(src)
 if (WITH_DOC)
     add_subdirectory(doc)
 endif()
+
+install(PROGRAMS scripts/pico-puller TYPE BIN)
