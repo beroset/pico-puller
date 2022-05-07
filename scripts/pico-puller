@@ -1,10 +1,71 @@
 #!/usr/bin/expect -f
+# point to the pico 
 set pico /dev/ttyACM0
-exec sh -c "sleep 3 < $pico" &
+
+# define a procedure for preparing to dump memory
+proc dump_setup {} {
+    set timeout 5
+    send "set_speed 2e6\n"
+    expect ">"
+    send "reset 0\n"
+    expect ">"
+    send "status\n"
+    expect -re {SRD = 0x([[:xdigit:]]+), SRD1 = 0x([[:xdigit:]]+)} {
+        scan $expect_out(0,string) "SRD = %x, SRD1 = %x" srd srd1
+        set hexsrd [ format 0x%x $srd ]
+        if { $srd & 0x80 ^ 0x80 } {
+            send_user "Error: SRD status $hexsrd indicates the M16C is not ready\n"
+            exit
+        }
+    }
+    expect ">"
+    send "id 0 0 0 0 0 0 0\n"
+    expect ">"
+    send "status\n"
+    expect -re {SRD = 0x([[:xdigit:]]+), SRD1 = 0x([[:xdigit:]]+)} {
+        scan $expect_out(0,string) "SRD = %x, SRD1 = %x" srd srd1
+        set hexsrd1 [ format 0x%x $srd1 ]
+        if { $srd1 & 0xc ^ 0xc } {
+            send_user "Error: SRD1 status $hexsrd1 indicates the Flash is not readable\n"
+            exit
+        }
+    }
+    expect ">"
+    set timeout 30
+}
+
 stty -F $pico 115200 raw -clocal -echo -istrip -hup
-send_user "Connecting to pico, exit with ~.\n"
-spawn -open [open $pico w+]
-interact {
-    ~. exit
-    ~~ {send "\034"}
+spawn -noecho -open [open $pico w+]
+set argc [llength $argv]
+set i 0
+while { $i < $argc } {
+    switch [lindex $argv $i] {
+        dump {
+            dump_setup
+            send "dump\n"
+            expect ">"
+        }
+        bdump {
+            dump_setup
+            send "bdump\n"
+            expect ">"
+        }
+        default {
+            set cmdfile [open [lindex $argv $i] ]
+            while {[gets $cmdfile line] >= 0} {
+                send "$line\n"
+                expect ">"
+            }
+            close $cmdfile
+        }
+    }
+    incr i
+}
+
+if { $argc == 0 } {
+    send_user "Connecting to pico, exit with ~.\n"
+    interact {
+        ~. exit
+        eof exit
+    }
 }
