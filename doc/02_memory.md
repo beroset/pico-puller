@@ -69,7 +69,7 @@ The flash memory of the M16C processor is divided into *blocks*.  The blocks are
 
 For 128K parts, everything is the same except the first populated memory is at 0xE0000, so the first two 64K blocks (blocks 5 and 6) do not exist.  It's helpful to remember that each *block* of memory is composed of multiple *pages* and that each page is 256 bytes long.  
 
-In this processor, as in many, one can program an individual *page*, but only erase an entire *block*.  It's also useful to know that the special function registers (SFRs) 
+In this processor, as in many, one can program an individual *page*, but only erase an entire *block*.  Individual pages can be programmed, but only whole blocks can be erased.  When a block is erased, it contains all 0xff bytes.
 
 ## Other reading
 
