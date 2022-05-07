@@ -16,12 +16,52 @@ This project is intended to allow a programmer to connect the Raspberry Pi Pico 
 
 ## How to use it
 
+### Step 1: Physical connections
+
 Full details on how to build the project and use it are in the [manual](https://github.com/beroset/pico-puller/releases/download/v1.0/refman.pdf).
 
-## Details 
+The short version is this.  First, make the following ten connections between the Pico and the circuit with the M16C processor.  M16C pin numbers refer to square package/rectangular package.
 
-The M30624FGAFP/GP and M30624FGMFP/GP versions both have 256K of Flash memory, while the M30620FCAFP/GP and M30620FCMFP/GP have 128K.  The FP suffix indicates a 100P6S-A rectangular package with 30 pins on the long side and 20 on the short side, while a GP suffix indicates a square 100-pin QFP package (designated 100P6Q-A) with 25 pins one each side.
+| Pico name | Pico pin | M16C pin | M16C name |
+|-----------|----------|----------|-----------|
+| 3V3(OUT)  |  36      |  14/16   |  Vcc      |
+|  GP5      |   7      |  32/34   |  BUSY     |
+|  GP2      |   4      |  31/33   |  SCLK     |   
+|  GP3      |   5      |  30/32   |  RXD      |   
+| 3V3(OUT)  |  36      |  44/46   |  \#CE      |
+|  GND      |   3      |  39/41   |  \#EPM     |
+|  GND      |   3      |  63/64   |  Vss      |
+|  GP6      |   9      |  10/12   |  \#RESET   |
+| 3V3(OUT)  |  36      |   7/9    |  CNVss    |
+|  GP4      |   6      |  29/31   |  TXD      |  
 
-There are three standard ways to program or read the M16C; parallel, synchronous serial, asynchronous serial.  This project uses the synchronous serial mode, which Renesas calls Standard Serial Mode 1, by connecting some of the pins on the Pico board to the corresponding ones on the M16C processor or board.  
+### Step 2: Configure CMake for build
+There are only required configuration item to define.  The first is to define a `PICO_MOUNT_LOCATION`.  This is the directory in which your Raspberry Pi Pico appears when first plugged in as an unprogrammed part.  On a Fedora Linux distribution this is `/run/media/username` where `username` is whatever name you use to log in.
 
-The synchronous serial protocol uses RXD1, TXD1, CLK1 to transfer data and RTS1 as a BUSY signal. Details of the protocol are in the Users Manual for the M16C/62A. 
+The second is `PICO_SDK_PATH` which should point to wherever you've installed and built the [`pico-sdk`](https://github.com/raspberrypi/pico-sdk.git).
+
+Optional but recommended are to build the documentation for this program (`WITH_DOC`) and whether to build a Release or Debug version.  A sample command line for this, if you are in `pico-puller` subdirectory is this:
+
+```
+cmake -DPICO_SDK_PATH=~/tools/pico/pico-sdk -DPICO_MOUNT_LOCATION=/run/media/beroset -DWITH_DOC=ON -DCMAKE_BUILD_TYPE=Release -S . -B build
+``` 
+
+This will create and configure the `build` subdirectory.
+
+### Step 3: Build the software for the Pico
+If the configuration described above has been done, building the software is very simple:
+
+```
+cmake --build build
+```
+
+### Step 4: Install the software
+Once the software is built, copy the `pico-puller.uf2` program to the Pico.  This can be done automatically using `sudo cmake --build build -t install`.  That will also automatically install the `pico-puller` script on your machine.
+
+### Step 5: Use the software
+If everything was installed, using the software is very simple.  If you want to get a dump of the contents of the user flash, use this:
+
+```
+pico-puller dump
+```
+
