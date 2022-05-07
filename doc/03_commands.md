@@ -122,7 +122,7 @@ Read the status registers SRD and SRD1 as defined below:
 #### SRD {#srd} #
 | bit | meaning                        | 
 |-----|--------------------------------|
-|  7  | write state machine busy       | 
+|  7  | write state machine ready      | 
 |  6  | reserved                       | 
 |  5  | erase operation error          | 
 |  4  | program operation error        | 
