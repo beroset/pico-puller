@@ -8,15 +8,15 @@ Here are the connections from the Pico to the M16C system.  M16C pin numbers ref
 | Pico name | Pico pin | M16C pin | M16C name |
 |-----------|----------|----------|-----------|
 | 3V3(OUT)  |  36      |  14/16   |  Vcc      |
-|  GP5      |   7      |  32/34   |  BUSY     |
-|  GP2      |   4      |  31/33   |  SCLK     |   
-|  GP3      |   5      |  30/32   |  RXD      |   
+|  GP21     |  27      |  32/34   |  BUSY     |
+|  GP18     |  24      |  31/33   |  SCLK     |   
+|  GP19     |  25      |  30/32   |  RXD      |   
 | 3V3(OUT)  |  36      |  44/46   |  \#CE      |
-|  GND      |   3      |  39/41   |  \#EPM     |
-|  GND      |   3      |  63/64   |  Vss      |
-|  GP6      |   9      |  10/12   |  \#RESET   |
+|  GND      |  28      |  39/41   |  \#EPM     |
+|  GND      |  28      |  63/64   |  Vss      |
+|  GP22     |  29      |  10/12   |  \#RESET   |
 | 3V3(OUT)  |  36      |   7/9    |  CNVss    |
-|  GP4      |   6      |  29/31   |  TXD      |  
+|  GP20     |  26      |  29/31   |  TXD      |  
 
 ## Processor family {#family} ##
 

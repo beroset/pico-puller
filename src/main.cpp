@@ -18,7 +18,7 @@
 struct State {
     bool running{true};
     bool showhelp{true};
-    beroset::M16C target;
+    beroset::M16C target{pio0, 18, 22};
 };
 
 static State state;
