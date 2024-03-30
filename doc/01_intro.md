@@ -49,6 +49,9 @@ Typically, the board incorporating the M16C does not present a large current loa
 
 If the device is not incorporated into a circuit board, a minimal interface circuit (not including oscillator cicuit) is shown below.
 
+@image html flash_circuit.png "Minimal flash circuit"
+@image latex flash_circuit.png "Minimal flash circuit" width=\textwidth
+
 ### Step 2: Configure CMake for build
 There are only required configuration item to define.  The first is to define a `PICO_MOUNT_LOCATION`.  This is the directory in which your Raspberry Pi Pico appears when first plugged in as an unprogrammed part.  On a Fedora Linux distribution this is `/run/media/username` where `username` is whatever name you use to log in.
 
