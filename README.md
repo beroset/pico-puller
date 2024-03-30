@@ -22,18 +22,18 @@ Full details on how to build the project and use it are in the [manual](https://
 
 The short version is this.  First, make the following ten connections between the Pico and the circuit with the M16C processor.  M16C pin numbers refer to square package/rectangular package.
 
-| Pico name | Pico pin | M16C pin | M16C name |
-|-----------|----------|----------|-----------|
-| 3V3(OUT)  |  36      |  14/16   |  Vcc      |
-|  GP21     |  27      |  32/34   |  BUSY     |
-|  GP18     |  24      |  31/33   |  SCLK     |   
-|  GP19     |  25      |  30/32   |  RXD      |   
-| 3V3(OUT)  |  36      |  44/46   |  \#CE      |
-|  GND      |  28      |  39/41   |  \#EPM     |
-|  GND      |  28      |  63/64   |  Vss      |
-|  GP22     |  29      |  10/12   |  \#RESET   |
-| 3V3(OUT)  |  36      |   7/9    |  CNVss    |
-|  GP20     |  26      |  29/31   |  TXD      |  
+| Pico name | Pico pin | Header pin | M16C pin | M16C name |
+|-----------|----------|------------|----------|-----------|
+| 3V3(OUT)  |  36      |   1        |  14/16   |  Vcc      |
+|  GP21     |  27      |   2        |  32/34   |  BUSY     |
+|  GP18     |  24      |   3        |  31/33   |  SCLK     |
+|  GP19     |  25      |   4        |  30/32   |  RXD      |
+| 3V3(OUT)  |  36      |   5        |  44/46   |  \#CE      |
+|  GND      |  28      |   6        |  39/41   |  \#EPM     |
+|  GND      |  28      |   7        |  63/64   |  Vss      |
+|  GP22     |  29      |   8        |  10/12   |  \#RESET   |
+| 3V3(OUT)  |  36      |   9        |   7/9    |  CNVss    |
+|  GP20     |  26      |  10        |  29/31   |  TXD      |
 
 ### Step 2: Configure CMake for build
 There are only required configuration item to define.  The first is to define a `PICO_MOUNT_LOCATION`.  This is the directory in which your Raspberry Pi Pico appears when first plugged in as an unprogrammed part.  On a Fedora Linux distribution this is `/run/media/username` where `username` is whatever name you use to log in.
@@ -65,3 +65,20 @@ If everything was installed, using the software is very simple.  If you want to 
 pico-puller dump
 ```
 
+You can redirect this to a file for further analysis:
+
+```
+pico-puller dump > foo.hex
+```
+
+If you wish to covert that to a binary file, one simple way to do it is to use a combination of `awk` to remove all lines that don't start with a hex address and then feed the result to `xxd`.
+
+```
+awk '/^[0-9a-f]{8}:/' foo.hex |xxd -r -g -1 > foo.bin
+```
+
+Or if you only want the binary file, that can be done all in a single line:
+
+```
+pico-puller dump | awk '/^[0-9a-f]{8}:/'  |xxd -r -g -1 > foo.bin
+```

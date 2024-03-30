@@ -4,18 +4,18 @@ The M16C processors are a 16-bit microcomputer family commonly used in embedded 
 ## Connections {#connections} ##
 Here are the connections from the Pico to the M16C system.  M16C pin numbers refer to square package/rectangular package.
 
-| Pico name | Pico pin | M16C pin | M16C name |
-|-----------|----------|----------|-----------|
-| 3V3(OUT)  |  36      |  14/16   |  Vcc      |
-|  GP21     |  27      |  32/34   |  BUSY     |
-|  GP18     |  24      |  31/33   |  SCLK     |
-|  GP19     |  25      |  30/32   |  RXD      |
-| 3V3(OUT)  |  36      |  44/46   |  \#CE      |
-|  GND      |  28      |  39/41   |  \#EPM     |
-|  GND      |  28      |  63/64   |  Vss      |
-|  GP22     |  29      |  10/12   |  \#RESET   |
-| 3V3(OUT)  |  36      |   7/9    |  CNVss    |
-|  GP20     |  26      |  29/31   |  TXD      |
+| Pico name | Pico pin | Header pin | M16C pin | M16C name |
+|-----------|----------|------------|----------|-----------|
+| 3V3(OUT)  |  36      |   1        |  14/16   |  Vcc      |
+|  GP21     |  27      |   2        |  32/34   |  BUSY     |
+|  GP18     |  24      |   3        |  31/33   |  SCLK     |
+|  GP19     |  25      |   4        |  30/32   |  RXD      |
+| 3V3(OUT)  |  36      |   5        |  44/46   |  \#CE      |
+|  GND      |  28      |   6        |  39/41   |  \#EPM     |
+|  GND      |  28      |   7        |  63/64   |  Vss      |
+|  GP22     |  29      |   8        |  10/12   |  \#RESET   |
+| 3V3(OUT)  |  36      |   9        |   7/9    |  CNVss    |
+|  GP20     |  26      |  10        |  29/31   |  TXD      |
 
 ## Processor family {#family} ##
 
