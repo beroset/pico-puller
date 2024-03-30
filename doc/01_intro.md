@@ -5,7 +5,7 @@ This project is intended to allow a programmer to connect a computer with a USB 
 \startuml
 :human: -> (computer): commands
 (computer) -> (pico): relay commands via USB
-(pico) -> (M16C): execute commands 
+(pico) -> (M16C): execute commands
 (M16C) -> (pico) : response
 (pico) -> (computer) : response
 (computer) -> :human: : response

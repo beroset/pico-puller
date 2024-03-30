@@ -1,8 +1,8 @@
 # Commands {#commands} #
 
-The `pico-puller` program supports the following commands. 
+The `pico-puller` program supports the following commands.
 
-## Command summary ## 
+## Command summary ##
 When the program starts, it shows the menu of choices which are also summarized here
 
 |  Command  | argument(s)                 | description                      |
@@ -29,7 +29,7 @@ When the program starts, it shows the menu of choices which are also summarized 
 | help      |                             | display this help
 | quit      |                             | reset Pico to program mode
 
-The typical sequence of commands would be first to release the CPU from reset using the `reset 0` command.  Then one could issue the `version` command to verify that the device is correctly connected and operating in the Serial Mode 1 as described in the Renesas documentation.  You should see an 8-byte string that looks something like "VER.4.04".  If instead you see all 0xff characters, or `<break x 008>`, something is wrong: either the wiring is not correct or your device doesn't support Serial Mode 1 or is still in reset.  
+The typical sequence of commands would be first to release the CPU from reset using the `reset 0` command.  Then one could issue the `version` command to verify that the device is correctly connected and operating in the Serial Mode 1 as described in the Renesas documentation.  You should see an 8-byte string that looks something like "VER.4.04".  If instead you see all 0xff characters, or `<break x 008>`, something is wrong: either the wiring is not correct or your device doesn't support Serial Mode 1 or is still in reset.
 
 One can then set a higher clock speed if the device supports it.  The default is 1MHz, so the clock transitions every 500 nanoseconds, but the the Pico is capable of going much faster.  Note that the argument is a floating point number in hertz, not megahertz, so `set_speed 2.5e6` sets the clock to 2.5MHz.  Higher speeds might not be supported by the M16C, depending on the frequency of its clock.  The `version` command is a handy way to tell if the faster speed is working or not.
 
@@ -47,7 +47,7 @@ Many of the reading and writing commands require that the ID is verified first. 
 
 If the ID has been verified, then one can dump the contents of the user Flash memory using the `dump` command.  This assumes that the part is the 256K Flash part, and so it starts at address 0xc0000, but it will also work for the 128K version, but the first 128K will consist solely of 0xff bytes.
 
-One can also dump the boot flash using the `bdump` command.  
+One can also dump the boot flash using the `bdump` command.
 
 ## Command details
 This describes each command in detail and also shows an sequence diagram for each of the commands that involve communication of bytes between the Pico and the M16C.
@@ -64,7 +64,7 @@ CPU is in reset
 ```
 
 ### Page Read
-Read a 256-byte page of flash memory and dump it to the screen in hex.  
+Read a 256-byte page of flash memory and dump it to the screen in hex.
 
 Example:
 ```
@@ -76,7 +76,7 @@ Example:
 
 \startuml
 pico -> M16C : <FF><addr_mid><addr_hi>
-pico <- M16C : [256 data bytes] 
+pico <- M16C : [256 data bytes]
 \enduml
 
 ### Program Page
@@ -88,7 +88,7 @@ Example:
 ```
 
 \startuml
-pico -> M16C : <41><addr_mid><addr_hi>[256 data bytes] 
+pico -> M16C : <41><addr_mid><addr_hi>[256 data bytes]
 \enduml
 
 ### Block Erase
@@ -120,28 +120,28 @@ pico -> M16C : <A7><D0>
 Read the status registers SRD and SRD1 as defined below:
 
 #### SRD {#srd} #
-| bit | meaning                        | 
+| bit | meaning                        |
 |-----|--------------------------------|
-|  7  | write state machine ready      | 
-|  6  | reserved                       | 
-|  5  | erase operation error          | 
-|  4  | program operation error        | 
-|  3  | program data corrupted         | 
-|  2  | reserved                       | 
-|  1  | reserved                       | 
-|  0  | reserved                       | 
+|  7  | write state machine ready      |
+|  6  | reserved                       |
+|  5  | erase operation error          |
+|  4  | program operation error        |
+|  3  | program data corrupted         |
+|  2  | reserved                       |
+|  1  | reserved                       |
+|  0  | reserved                       |
 
 #### SRD1 {#srd1} #
-| bit | meaning                        | 
+| bit | meaning                        |
 |-----|--------------------------------|
-|  7  | boot update complete           | 
-|  6  | reserved                       | 
-|  5  | reserved                       | 
-|  4  | download checksum OK           | 
-|  3  | ID check verified OK           | 
-|  2  | ID check attempted             | 
-|  1  | data receive timeout           | 
-|  0  | reserved                       | 
+|  7  | boot update complete           |
+|  6  | reserved                       |
+|  5  | reserved                       |
+|  4  | download checksum OK           |
+|  3  | ID check verified OK           |
+|  2  | ID check attempted             |
+|  1  | data receive timeout           |
+|  0  | reserved                       |
 
 Example:
 ```
@@ -236,7 +236,7 @@ pico -> M16C : <FA><size_lo><size_hi><checksum>[data input]
 \enduml
 
 ### Version Data Output Function
-The `version` command get the version of the bootloader that is currently running.  
+The `version` command get the version of the bootloader that is currently running.
 
 Example:
 ```
@@ -254,7 +254,7 @@ The `bpage` function works just like the `rpage` function but extracts bootloade
 
 \startuml
 pico -> M16C : <FC><addr_mid><addr_hi>
-pico <- M16C : [256 data bytes] 
+pico <- M16C : [256 data bytes]
 \enduml
 
 ### Read Check Data
