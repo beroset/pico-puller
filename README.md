@@ -18,7 +18,7 @@ This project is intended to allow a programmer to connect the Raspberry Pi Pico 
 
 ### Step 1: Physical connections
 
-Full details on how to build the project and use it are in the [manual](https://github.com/beroset/pico-puller/releases/download/v1.1/refman.pdf).
+Full details on how to build the project and use it are in the [manual](https://github.com/beroset/pico-puller/releases/download/v1.2.1/refman.pdf).
 
 The short version is this.  First, make the following ten connections between the Pico and the circuit with the M16C processor.  M16C pin numbers refer to square package/rectangular package.
 
