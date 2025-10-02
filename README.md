@@ -36,7 +36,7 @@ The short version is this.  First, make the following ten connections between th
 |  GP20     |  26      |  10        |  29/31   |  TXD      |
 
 ### Step 2: Configure CMake for build
-There are only required configuration item to define.  The first is to define a `PICO_MOUNT_LOCATION`.  This is the directory in which your Raspberry Pi Pico appears when first plugged in as an unprogrammed part.  On a Fedora Linux distribution this is `/run/media/username` where `username` is whatever name you use to log in.
+There are only two required configuration items to define.  The first is to define a `PICO_MOUNT_LOCATION`.  This is the directory in which your Raspberry Pi Pico appears when first plugged in as an unprogrammed part.  On a Fedora Linux distribution this is `/run/media/username` where `username` is whatever name you use to log in.
 
 The second is `PICO_SDK_PATH` which should point to wherever you've installed and built the [`pico-sdk`](https://github.com/raspberrypi/pico-sdk.git).
 
